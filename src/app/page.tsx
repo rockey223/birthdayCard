@@ -4,7 +4,7 @@ import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,12 +21,13 @@ const formSchema = z.object({
 });
 
 export default function Home() {
-  const [displayModal, setdisplayModal] = useState(false);
+  const [displayModal, setdisplayModal] = useState(true);
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     reset,
+    getValues
   } = useForm({
     defaultValues: {
       fullname: "",
@@ -35,10 +36,12 @@ export default function Home() {
     },
     resolver: zodResolver(formSchema),
   });
+
+
   const submitForm = (data: any) => {
     console.log(data);
 
-    // setdisplayModal(true);
+    setdisplayModal(true);
     // setTimeout(()=>{setdisplayModal(false)},5000)
   };
   return (
@@ -90,12 +93,12 @@ export default function Home() {
         </div>
         <div className="z-10 form  h-auto w-[500px]  absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10 max-sm:px-10">
           <form
-           onClick={handleSubmit(submitForm)}
+           onSubmit={handleSubmit(submitForm)}
             className="bg-indigo-300 p-5 rounded-xl h-full w-full flex flex-col"
             // className="z-10 form  h-auto w-[500px] p-5 rounded-xl bg-sky-600 flex flex-col absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10"
             // onSubmit={submitForm}
           >
-            <p className="text-slate-900 text-sm leading-6 max-sm:leading-4">
+            <p className="text-slate-900 text-md leading-6 max-sm:leading-4">
               Enter the birthday person's name, age, and a custom message to
               make their birthday special.
             </p>
@@ -124,7 +127,9 @@ export default function Home() {
               {...register("message")}
               icon={icons.message}
               count={true}
+              
               errorMessage={errors.message?.message}
+              
             />
             <Button
               type="submit"

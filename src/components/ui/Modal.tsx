@@ -36,9 +36,9 @@ const Modal = ({
     { scope: container }
   );
   const [displayCoppied, setDisplayCoppied] = useState(false);
-  function copy(e: any) {
+  async function copy(e: any) {
     console.log(e.target.innerHTML);
-    navigator.clipboard.writeText(e.target.innerHTML);
+    await navigator.clipboard.writeText(e.target.innerHTML);
     setDisplayCoppied(true);
     setTimeout(() => {
       setDisplayCoppied(false);
@@ -105,9 +105,9 @@ const Modal = ({
         </div>
         {displayLink && (
           <div className="linkContainer w-full flex justify-center items-center">
-            <div className="linkContent bg-slate-50 max-lg:w-4/5 w-1/4 h-[230px] p-3 flex flex-col gap-5">
+            <div className="linkContent bg-slate-50 max-lg:w-4/5 w-1/4 min-h-[190px] h-auto p-3 flex flex-col gap-5">
               <h5 className="text-3xl">Send this link:</h5>
-              <div className="flex flex-col h-[90px]">
+              <div className="flex flex-col h-auto max-sm:h-[80px]">
                 <div className="linkBox bg-slate-200 px-4  h-[40px] flex items-center gap-3">
                   <span className="icon h-[25px] w-[25px]">
                     <svg
