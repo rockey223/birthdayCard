@@ -3,16 +3,20 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  fullname: z.string().min(3, "Name is Required."),
+  fullName: z.string().min(3, "Name is Required."),
   age: z.preprocess(
     (value) => (typeof value === "string" ? parseInt(value, 10) : value),
-    z.number().min(1, "Age must be at least 1").max(120, "Age cannot exceed 120")
+    z
+      .number()
+      .min(1, "Age must be at least 1")
+      .max(120, "Age cannot exceed 120")
   ),
   message: z
     .string()
@@ -21,33 +25,41 @@ const formSchema = z.object({
 });
 
 export default function Home() {
-  const [displayModal, setdisplayModal] = useState(true);
+  const [displayModal, setdisplayModal] = useState(false);
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
     reset,
-    getValues
+    getValues,
   } = useForm({
     defaultValues: {
-      fullname: "",
+      fullName: "",
       age: 0,
       message: "",
     },
     resolver: zodResolver(formSchema),
   });
-
-
+const [link,setLink]= useState("")
   const submitForm = (data: any) => {
-    console.log(data);
-
+    axios
+      .post("/api/birthday", data)
+      .then((res) => {
+        setLink(`${process.env.NEXT_PUBLIC_HOST }/${ res.data.data._id}`)
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setdisplayModal(true);
     // setTimeout(()=>{setdisplayModal(false)},5000)
   };
+  console.log(isSubmitting);
+  
   return (
     <>
       {displayModal && (
-        <Modal setdisplayModal={setdisplayModal} message={"Hello"} />
+        <Modal setdisplayModal={setdisplayModal} message={"Hello"} link={link} />
       )}
       <div className="select-none flex items-center bg-orange-300 h-auto min-h-screen w-full max-lg:items-center max-lg:flex max-lg:flex-col max-lg:gap-4 max-lg:justify-center max-sm:py-10">
         <div className="image">
@@ -93,7 +105,7 @@ export default function Home() {
         </div>
         <div className="z-10 form  h-auto w-[500px]  absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10 max-sm:px-10">
           <form
-           onSubmit={handleSubmit(submitForm)}
+            onSubmit={handleSubmit(submitForm)}
             className="bg-indigo-300 p-5 rounded-xl h-full w-full flex flex-col"
             // className="z-10 form  h-auto w-[500px] p-5 rounded-xl bg-sky-600 flex flex-col absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10"
             // onSubmit={submitForm}
@@ -105,11 +117,11 @@ export default function Home() {
             <Input
               placeholder="Enter Full Name"
               // name="fullname"
-              id="fullname"
+              id="fullName"
               label="Full Name"
               icon={icons.name}
-              {...register("fullname")}
-              errorMessage={errors.fullname?.message}
+              {...register("fullName")}
+              errorMessage={errors.fullName?.message}
             />
             <Input
               placeholder="Enter Age "
@@ -127,13 +139,11 @@ export default function Home() {
               {...register("message")}
               icon={icons.message}
               count={true}
-              
               errorMessage={errors.message?.message}
-              
             />
             <Button
               type="submit"
-             
+              disable={isSubmitting}
               className="self-center"
             />
           </form>

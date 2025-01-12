@@ -11,9 +11,11 @@ if (typeof window !== "undefined") {
 const Modal = ({
   setdisplayModal,
   message,
+  link
 }: {
   setdisplayModal: (value: boolean) => void;
   message: string;
+  link: string
 }) => {
   const cover = useRef<HTMLElement | any>(null);
   const container = useRef<HTMLElement | any>(null);
@@ -129,7 +131,7 @@ const Modal = ({
                     className="linkcontent text-gray-600 cursor-pointer"
                     onClick={copy}
                   >
-                    Your Link goes Here
+                    {link}
                   </p>
                 </div>
                 {displayCoppied && (
