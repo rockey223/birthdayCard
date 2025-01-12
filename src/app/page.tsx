@@ -2,48 +2,137 @@
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const formSchema = z.object({
+  fullname: z.string().min(3, "Name is Required."),
+  age: z.preprocess(
+    (value) => (typeof value === "string" ? parseInt(value, 10) : value),
+    z.number().min(1, "Age must be at least 1").max(120, "Age cannot exceed 120")
+  ),
+  message: z
+    .string()
+    .min(3, "Message is Required")
+    .max(540, "Message must be of only 540 characters."),
+});
 
 export default function Home() {
   const [displayModal, setdisplayModal] = useState(false);
-  const submitForm = (e: any) => {
-    e.preventDefault();
-    setdisplayModal(true);
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    reset,
+  } = useForm({
+    defaultValues: {
+      fullname: "",
+      age: 0,
+      message: "",
+    },
+    resolver: zodResolver(formSchema),
+  });
+  const submitForm = (data: any) => {
+    console.log(data);
+
+    // setdisplayModal(true);
     // setTimeout(()=>{setdisplayModal(false)},5000)
   };
   return (
     <>
-      {displayModal && <Modal setdisplayModal={setdisplayModal} />}
-      <div className=" bg-orange-300 h-screen w-full max-lg:items-center max-lg:flex max-lg:justify-center">
-        <form
-          className="z-10 form h-auto w-[500px] p-5 rounded-xl bg-sky-600 flex flex-col absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0"
-          // onSubmit={submitForm}
-        >
-          <p className="text-gray-200">
-            Enter the birthday person's name, age, and a custom message that
-            will appear after they blow out their candles.
-          </p>
-          <Input
-            placeholder="Enter Full Name"
-            name="fullname"
-            label="Full Name"
-            icon={icons.name}
+      {displayModal && (
+        <Modal setdisplayModal={setdisplayModal} message={"Hello"} />
+      )}
+      <div className="select-none flex items-center bg-orange-300 h-auto min-h-screen w-full max-lg:items-center max-lg:flex max-lg:flex-col max-lg:gap-4 max-lg:justify-center max-sm:py-10">
+        <div className="image">
+          <Image
+            src={"/ballon.png"}
+            alt="ballon"
+            width={200}
+            height={200}
+            className="absolute h-[200px] w-[200px] right-1/2 max-lg:hidden"
           />
-          <Input
-            placeholder="Enter Age "
-            name="Age"
-            label="Age"
-            type="number"
-            icon={icons.age}
+          <Image
+            src={"/cake.png"}
+            alt="ballon"
+            width={200}
+            height={200}
+            className="absolute h-[200px] w-[200px] max-lg:hidden top-14 left-32"
           />
-          <Input
-            placeholder="Enter Message"
-            name="message"
-            label="Message"
-            icon={icons.message}
+          <Image
+            src={"/gift.png"}
+            alt="ballon"
+            width={200}
+            height={200}
+            className="absolute h-[200px] w-[200px] max-lg:hidden top-14 right-32"
           />
-          <Button type="submit" onClick={submitForm} className="self-center" />
-        </form>
+          <Image
+            src={"/party.png"}
+            alt="ballon"
+            width={200}
+            height={200}
+            className="absolute h-[200px] w-[200px] max-lg:hidden bottom-10 right-32"
+          />
+        </div>
+        <div className="description text-9xl h-full flex flex-col justify-center items-center w-4/12 max-lg:w-full max-lg:items-center ml-32 max-lg:ml-0 max-sm:mb-5">
+          <span className="bg-orange-600 px-10 py-5 -skew-y-12 max-lg:text-8xl max-sm:text-[64px] max-sm:py-0 max-sm:px-4">
+            Create a{" "}
+          </span>
+          <span className="bg-blue-600 px-9 py-5 mt-5 -skew-y-12 max-lg:text-8xl max-sm:text-[64px] max-sm:py-0 max-sm:px-4">
+            Birthday{" "}
+          </span>
+          <span className="bg-pink-400 px-10 py-5 -skew-y-12 mt-5 max-lg:text-8xl max-sm:text-[64px] max-sm:py-0 max-sm:px-4">
+            Card
+          </span>
+        </div>
+        <div className="z-10 form  h-auto w-[500px]  absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10 max-sm:px-10">
+          <form
+           onClick={handleSubmit(submitForm)}
+            className="bg-indigo-300 p-5 rounded-xl h-full w-full flex flex-col"
+            // className="z-10 form  h-auto w-[500px] p-5 rounded-xl bg-sky-600 flex flex-col absolute right-40 top-1/2 -translate-y-1/2 max-lg:relative max-lg:-translate-y-0 max-lg:right-0 max-lg:top-0 max-sm:w-full max-sm:mx-10"
+            // onSubmit={submitForm}
+          >
+            <p className="text-slate-900 text-sm leading-6 max-sm:leading-4">
+              Enter the birthday person's name, age, and a custom message to
+              make their birthday special.
+            </p>
+            <Input
+              placeholder="Enter Full Name"
+              // name="fullname"
+              id="fullname"
+              label="Full Name"
+              icon={icons.name}
+              {...register("fullname")}
+              errorMessage={errors.fullname?.message}
+            />
+            <Input
+              placeholder="Enter Age "
+              id="age"
+              label="Age"
+              type="number"
+              icon={icons.age}
+              {...register("age")}
+              errorMessage={errors.age?.message}
+            />
+            <Input
+              placeholder="Enter Message (max 540 characters)"
+              id="message"
+              label="Message"
+              {...register("message")}
+              icon={icons.message}
+              count={true}
+              errorMessage={errors.message?.message}
+            />
+            <Button
+              type="submit"
+             
+              className="self-center"
+            />
+          </form>
+        </div>
       </div>
     </>
   );

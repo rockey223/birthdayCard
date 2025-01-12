@@ -56,8 +56,8 @@ const Card = () => {
               </button>
             </div>
           </div>
-          <div className="absolute card-back h-[400px] w-full bg-slate-50 p-4 flex flex-col origin-center">
-            <h1 className="text-3xl">Hello </h1>
+          <div className="absolute card-back h-[400px] w-full bg-slate-50 p-4  flex flex-col origin-center overflow-scroll">
+            <h1 className="text-2xl mt-10">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem tempore itaque quaerat a aliquid temporibus rerum suscipit eligendi blanditiis excepturi voluptates esse deleniti fugit mollitia nemo, corporis, alias id animi repellat non architecto. Soluta sed optio, cupiditate temporibus ad natus nobis perspiciatis voluptas autem. Veritatis eos assumenda modi sed quam sequi illum quod dolore accusamus nemo reprehenderit aliquid deleniti iste dolor quibusdam, accusantium consectetur, laudantium impedit dolorem porro voluptatibus. Quibusdam, omnis culpa soluta, fuga autem ad adipisci iure ex veritatis aut animi qui molestiae facere quod inventore saepe possimus quam cumque quos alias! A vel ipsum deserunt soluta quam ipsam, tempore, id molestiae ea corporis magni similique quisquam enim, et cumque eum! Aliquid distinctio dolorem delectus earum officiis pariatur, cum nisi? Rem eligendi ab nemo illum, repellendus eaque in doloribus sint vero, sapiente unde quaerat amet quisquam et! Dignissimos numquam aspernatur cupiditate reiciendis nihil assumenda. Aliquam, sequi. Velit voluptatem delectus quidem doloribus quibusdam? Nobis blanditiis perferendis eveniet debitis sequi. Quam in, sint nisi modi voluptatibus dolor consequuntur nesciunt quidem aliquam sunt qui? Molestias explicabo, excepturi consequuntur repellat optio molestiae, possimus porro nostrum similique temporibus dolor a magnam repudiandae nihil voluptate quis ad quisquam nisi accusantium. Voluptatem aspernatur accusamus voluptates beatae. </h1>
             {/* <h1 className="shadow-2xl px-7 text-center text-8xl font-medium -skew-y-12 bg-purple-600 max-lg:w-2/3 max-md:w-3/4 max-md:text-5xl w-5/6 self-center">
               {title}
             </h1>
