@@ -31,7 +31,7 @@ const Card = () => {
     getData(params.card);
   }, [params]);
   const title = "HAPPY BIRTHDAY";
-  const name = "Prashant Maharjan";
+const button = useRef<HTMLElement | any>(null)
   const flipCard = useRef<HTMLElement | any>(null);
   const content = useRef<HTMLElement | any>(null);
   const [explode, setExplode] = useState(false);
@@ -42,6 +42,7 @@ const Card = () => {
     // },3000)
     gsap.to(flipCard.current, { rotateX: 180, duration: 2 });
     gsap.to(content.current, { opacity: 0.2, duration: 1.5 });
+gsap.set(button.current,{display: "none"})
   };
   if (data.name == "") {
     return (
@@ -79,6 +80,7 @@ const Card = () => {
               </h3>
               <button
                 onClick={rotateCard}
+                ref={button}
                 className="absolute right-3 bottom-3 text-md self-end text-purple-800 animate-pulse"
               >
                 Click here
