@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
-  title: "Create a Birthday Card",
+  title: "Happy Birthday",
   description:
     "Create personalized birthday cards with ease! Whether you're celebrating a special friend, family member, or colleague, our card creator lets you customize every detail. Choose from a wide variety of designs, add your heartfelt message, and make the occasion unforgettable. It's simple, fun, and the perfect way to show you care. Start creating your unique birthday card today!",
-    metadataBase: new URL("http://localhost:3000"),
+    
 };
 
-export default function RootLayout({
+export default function CardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -42,9 +30,7 @@ export default function RootLayout({
         />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflowX-hidden`}
-      >
+      <body>
         {children}
       </body>
     </html>

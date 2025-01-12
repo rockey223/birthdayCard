@@ -7,15 +7,18 @@ import ReactConfetti from "react-confetti";
 import axios from "axios";
 
 gsap.registerPlugin(useGSAP);
-
+interface CardData {
+  fullName: string;
+  message: string;
+}
 const Card = () => {
-  const params = useParams();
+  const params = useParams<{card:string}>();
   console.log("params", params.card);
   const [data, setData] = useState({ name: "", message: "" });
 
-  function getData(id: any) {
+  function getData(id: string) {
     axios
-      .get(`/api/birthday/${id}`)
+      .get<CardData>(`/api/birthday/${id}`)
       .then((res) => {
         console.log(res.data);
         setData({
@@ -31,9 +34,9 @@ const Card = () => {
     getData(params.card);
   }, [params]);
   const title = "HAPPY BIRTHDAY";
-const button = useRef<HTMLElement | any>(null)
-  const flipCard = useRef<HTMLElement | any>(null);
-  const content = useRef<HTMLElement | any>(null);
+const button = useRef<HTMLButtonElement | null>(null)
+  const flipCard = useRef<HTMLDivElement | null>(null);
+  const content = useRef<HTMLDivElement | null>(null);
   const [explode, setExplode] = useState(false);
   const rotateCard = () => {
     setExplode(true);

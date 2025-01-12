@@ -9,7 +9,7 @@ const Input = forwardRef<
     label: string;
     type?: string;
     icon: React.ReactNode;
-    count?: boolean;
+
     errorMessage?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }
@@ -21,7 +21,7 @@ const Input = forwardRef<
       label,
       type = "text",
       icon,
-      count,
+
       errorMessage,
       onChange,
     },

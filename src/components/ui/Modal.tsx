@@ -13,13 +13,13 @@ const Modal = ({
   message,
   link
 }: {
-  setdisplayModal: (value: boolean) => void;
+  setdisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   link: string
 }) => {
-  const cover = useRef<HTMLElement | any>(null);
-  const container = useRef<HTMLElement | any>(null);
-  const letter = useRef<HTMLElement | any>(null);
+  const cover = useRef<HTMLDivElement | null>(null);
+  const container = useRef<HTMLDivElement | null>(null);
+  const letter = useRef<HTMLDivElement | null>(null);
 
   const [displayLink, setdisplayLink] = useState(false);
   useGSAP(
@@ -38,9 +38,10 @@ const Modal = ({
     { scope: container }
   );
   const [displayCoppied, setDisplayCoppied] = useState(false);
-  async function copy(e: any) {
-    console.log(e.target.innerHTML);
-    await navigator.clipboard.writeText(e.target.innerHTML);
+  async function copy(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const target = e.target as HTMLDivElement; // Cast to HTMLDivElement
+    console.log(target.innerHTML);
+    await navigator.clipboard.writeText(target.innerHTML);
     setDisplayCoppied(true);
     setTimeout(() => {
       setDisplayCoppied(false);

@@ -5,7 +5,7 @@ import Modal from "@/components/ui/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,13 +16,14 @@ const formSchema = z.object({
     z
       .number()
       .min(1, "Age must be at least 1")
-      .max(120, "Age cannot exceed 120")
+      .max(120, "Age cannot exceed 120").nullable()
   ),
   message: z
     .string()
     .min(3, "Message is Required")
     .max(540, "Message must be of only 540 characters."),
 });
+type FormData = z.infer<typeof formSchema>;
 
 export default function Home() {
   const [displayModal, setdisplayModal] = useState(false);
@@ -30,8 +31,7 @@ export default function Home() {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    reset,
-    getValues,
+    
   } = useForm({
     defaultValues: {
       fullName: "",
@@ -41,7 +41,7 @@ export default function Home() {
     resolver: zodResolver(formSchema),
   });
 const [link,setLink]= useState("")
-  const submitForm = (data: any) => {
+  const submitForm = (data: FormData) => {
     axios
       .post("/api/birthday", data)
       .then((res) => {
@@ -111,7 +111,7 @@ const [link,setLink]= useState("")
             // onSubmit={submitForm}
           >
             <p className="text-slate-900 text-md leading-6 max-sm:leading-4">
-              Enter the birthday person's name, age, and a custom message to
+              Enter the birthday person&apos;s name, age, and a custom message to
               make their birthday special.
             </p>
             <Input
@@ -124,7 +124,7 @@ const [link,setLink]= useState("")
               errorMessage={errors.fullName?.message}
             />
             <Input
-              placeholder="Enter Age "
+              placeholder="Enter Age in Number "
               id="age"
               label="Age"
               type="number"
@@ -138,7 +138,7 @@ const [link,setLink]= useState("")
               label="Message"
               {...register("message")}
               icon={icons.message}
-              count={true}
+             
               errorMessage={errors.message?.message}
             />
             <Button
