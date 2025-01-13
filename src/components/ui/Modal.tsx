@@ -26,7 +26,7 @@ const Modal = ({
   useGSAP(
     () => {
       const tl = gsap.timeline({
-        // onComplete: () => setdisplayLink(true), // Trigger state update after animation finishes
+        onComplete: () => setdisplayLink(true), // Trigger state update after animation finishes
       });
       tl.to(container.current, { opacity: 1, duration: 0.5 })
 
