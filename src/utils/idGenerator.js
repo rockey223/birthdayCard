@@ -1,7 +1,7 @@
 import Birthday from "../models/Birthday"; // Import your Mongoose model
 
 // Function to generate a 10-character ID
-function generateShortId(length = 10) {
+function generateShortId(length = 6) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let id = "";

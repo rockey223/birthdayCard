@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "../../../lib/mongoose";
 import Birthday from "../../../models/Birthday";
-// import { generateUniqueId } from "../../../utils/idGenerator"; // Import the ID generator
+import { generateUniqueId } from "../../../utils/idGenerator"; // Import the ID generator
 export const maxDuration = 60;
 // Handle GET requests
 export async function GET() {
@@ -34,13 +34,13 @@ export async function POST(request) {
     await connect();
 
     // Generate a unique ID
-    // const birthdayId = await generateUniqueId();
+    const birthdayId = await generateUniqueId();
 
     const birthday = new Birthday({
       fullName,
       age,
       message,
-      // birthdayId,
+      birthdayId,
     });
     await birthday.save();
 

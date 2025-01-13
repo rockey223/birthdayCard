@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const birthdaySchema = new mongoose.Schema({
-  // birthdayId: { type: String, unique: true },
+  birthdayId: { type: String, unique: true },
   fullName: { type: String, required: true },
   age: { type: Number, required: true },
   message: { type: String, required: true },

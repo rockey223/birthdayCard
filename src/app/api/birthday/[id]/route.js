@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
     }
 
     await connect();
-    const birthday = await Birthday.findById(id);
+    const birthday = await Birthday.findOne({ birthdayId: id });
 
     if (!birthday) {
       return NextResponse.json(
