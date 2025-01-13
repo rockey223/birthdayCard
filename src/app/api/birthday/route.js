@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connect from "../../../lib/mongoose";
 import Birthday from "../../../models/Birthday";
 // import { generateUniqueId } from "../../../utils/idGenerator"; // Import the ID generator
-export const maxDuration = 500;
+export const maxDuration = 60;
 // Handle GET requests
 export async function GET() {
   try {
