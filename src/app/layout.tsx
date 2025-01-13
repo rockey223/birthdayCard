@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Create a Birthday Card",
   description:
     "Create personalized birthday cards with ease! Whether you're celebrating a special friend, family member, or colleague, our card creator lets you customize every detail. Choose from a wide variety of designs, add your heartfelt message, and make the occasion unforgettable. It's simple, fun, and the perfect way to show you care. Start creating your unique birthday card today!",
-    metadataBase: new URL("http://localhost:3000"),
+    metadataBase: new URL("https://birthday.maharjanp.com.np"),
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <link
           rel="icon"
           type="image/png"
@@ -41,7 +41,7 @@ export default function RootLayout({
           href="/apple-touch-icon.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-      </head>
+      </head> */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflowX-hidden`}
       >
