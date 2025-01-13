@@ -43,13 +43,13 @@ export default function Home() {
 const [link,setLink]= useState("")
   const submitForm = (data: FormData) => {
     const message = getValues("message")
-    console.log("message",message);
+
     
     axios
       .post("/api/birthday", data)
       .then((res) => {
-        setLink(`${process.env.NEXT_PUBLIC_HOST }/${ res.data.data._id}`)
-        console.log(res);
+        setLink(`${process.env.NEXT_PUBLIC_HOST }/${ res.data.data.birthdayId}`)
+        
       })
       .catch((err) => {
         console.log(err);
@@ -57,7 +57,7 @@ const [link,setLink]= useState("")
     setdisplayModal(true);
     // setTimeout(()=>{setdisplayModal(false)},5000)
   };
-  console.log(isSubmitting);
+
   
   return (
     <>

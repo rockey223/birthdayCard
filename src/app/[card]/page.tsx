@@ -12,15 +12,13 @@ interface CardData {
   message: string;
 }
 const Card = () => {
-  const params = useParams<{card:string}>();
-  console.log("params", params.card);
+  const params = useParams<{ card: string }>();
   const [data, setData] = useState({ name: "", message: "" });
 
   function getData(id: string) {
     axios
       .get<CardData>(`/api/birthday/${id}`)
       .then((res) => {
-        console.log(res.data);
         setData({
           name: res.data.fullName,
           message: res.data.message,
@@ -34,7 +32,7 @@ const Card = () => {
     getData(params.card);
   }, [params]);
   const title = "HAPPY BIRTHDAY";
-const button = useRef<HTMLButtonElement | null>(null)
+  const button = useRef<HTMLButtonElement | null>(null);
   const flipCard = useRef<HTMLDivElement | null>(null);
   const content = useRef<HTMLDivElement | null>(null);
   const [explode, setExplode] = useState(false);
@@ -45,7 +43,7 @@ const button = useRef<HTMLButtonElement | null>(null)
     // },3000)
     gsap.to(flipCard.current, { rotateX: 180, duration: 2 });
     gsap.to(content.current, { opacity: 0.2, duration: 1.5 });
-gsap.set(button.current,{display: "none"})
+    gsap.set(button.current, { display: "none" });
   };
   if (data.name == "") {
     return (
