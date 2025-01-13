@@ -3,6 +3,7 @@
 @tailwind utilities;
 *{
   user-select: none;
+  --rotate-value: -180deg;
 }
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
@@ -38,4 +39,17 @@
     border-radius: 10px;
   }
 
+  .rotateX-180{
+    transform: rotateX(var(--rotate-value));
+    translate: none;
+  }
+  .rotateY-180{
+    transform: rotateY(180deg);
+  }
+  .front,.back{
+    -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d
+  }
+  
 }

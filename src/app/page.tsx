@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
+  senderName: z.string().min(3,"Sender name is required"),
   fullName: z.string().min(3, "Name is Required."),
   age: z.preprocess(
     (value) => (typeof value === "string" ? parseInt(value, 10) : value),
@@ -34,6 +35,7 @@ export default function Home() {
     getValues
   } = useForm({
     defaultValues: {
+      senderName: "",
       fullName: "",
       age: 0,
       message: "",
@@ -117,6 +119,15 @@ const [link,setLink]= useState("")
               Enter the birthday person&apos;s name, age, and a custom message to
               make their birthday special.
             </p>
+            <Input
+              placeholder="Enter Your Name"
+              // name="fullname"
+              id="senderName"
+              label="Your Name"
+              icon={icons.name}
+              {...register("senderName")}
+              errorMessage={errors.senderName?.message}
+            />
             <Input
               placeholder="Enter Full Name"
               // name="fullname"

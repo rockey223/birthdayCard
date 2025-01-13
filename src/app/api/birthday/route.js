@@ -21,10 +21,10 @@ export async function GET() {
 // Handle POST requests
 export async function POST(request) {
   try {
-    const { fullName, age, message } = await request.json();
+    const { senderName,fullName, age, message } = await request.json();
 
     // Validate input
-    if (!fullName || !age || !message) {
+    if (!senderName || !fullName || !age || !message) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -37,6 +37,7 @@ export async function POST(request) {
     const birthdayId = await generateUniqueId();
 
     const birthday = new Birthday({
+      senderName,
       fullName,
       age,
       message,

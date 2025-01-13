@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const birthdaySchema = new mongoose.Schema({
   birthdayId: { type: String, unique: true },
+  senderName:{type:String,required: true},
   fullName: { type: String, required: true },
   age: { type: Number, required: true },
   message: { type: String, required: true },
