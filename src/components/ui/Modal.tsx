@@ -117,6 +117,7 @@ const Modal = ({
             <div className="linkContent bg-slate-50 max-lg:w-4/5 w-1/4 min-h-[190px] h-auto p-3 flex flex-col gap-5">
               <h5 className="text-3xl">Send this link:</h5>
               <div className="flex flex-col h-auto max-sm:h-[80px]">
+                <span className="text-gray-400 text-sm">Click to copy</span>
                 <div className="linkBox bg-slate-200 px-4  h-[40px] flex items-center gap-3">
                   <span className="icon h-[25px] w-[25px]">
                     <svg
@@ -135,7 +136,7 @@ const Modal = ({
                     </svg>
                   </span>
                   <p
-                    className="linkcontent text-gray-600 cursor-pointer"
+                    className="linkcontent text-gray-600 cursor-pointer overflow-hidden"
                     onClick={copy}
                   >
                     {link}
