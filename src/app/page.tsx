@@ -31,7 +31,7 @@ export default function Home() {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    
+    getValues
   } = useForm({
     defaultValues: {
       fullName: "",
@@ -42,6 +42,9 @@ export default function Home() {
   });
 const [link,setLink]= useState("")
   const submitForm = (data: FormData) => {
+    const message = getValues("message")
+    console.log("message",message);
+    
     axios
       .post("/api/birthday", data)
       .then((res) => {
@@ -59,7 +62,7 @@ const [link,setLink]= useState("")
   return (
     <>
       {displayModal && (
-        <Modal setdisplayModal={setdisplayModal} message={"Hello"} link={link} />
+        <Modal setdisplayModal={setdisplayModal} message={getValues("message")} link={link} />
       )}
       <div className="select-none flex items-center bg-orange-300 h-auto min-h-screen w-full max-lg:items-center max-lg:flex max-lg:flex-col max-lg:gap-4 max-lg:justify-center max-sm:py-10">
         <div className="image">
