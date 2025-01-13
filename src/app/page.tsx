@@ -26,7 +26,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export default function Home() {
-  const [displayModal, setdisplayModal] = useState(true);
+  const [displayModal, setdisplayModal] = useState(false);
   const {
     register,
     formState: { errors, isSubmitting },
