@@ -42,7 +42,7 @@ export default function Home() {
   });
 const [link,setLink]= useState("")
   const submitForm = (data: FormData) => {
-    const message = getValues("message")
+    
 
     
     axios
