@@ -45,14 +45,15 @@ const Card = () => {
   }, [params]);
 
   const dispplay = () => {
-    setExplode(true);
+    setTimeout(()=>{
+      setExplode(true);
+    },3000)
     const tl = gsap.timeline();
     tl.to(cover.current, { zIndex: 5 }); // Rotate back synchronously
     tl.to(front.current, { rotateY: 180 }) // Rotate front
       .to(back.current, { rotateY: 0 }, "<") // Rotate back synchronously
       .set(cover.current, { opacity: 1 }, "<") // Rotate back synchronously
       .to(cover.current, {
-        
         "--rotate-value": "0deg",
         duration: 1,
         delay: 0.5,
@@ -65,7 +66,17 @@ const Card = () => {
   if (data.name == "") {
     return (
       <>
-        <h1>Loading...</h1>
+        <div className="h-screen w-full flex justify-center items-center">
+          <div className="w-full h-1/2 flex justify-center items-center">
+            <Image
+              src={"/loading.gif"}
+              alt="loading image"
+              width={300}
+              height={300}
+              className="w-1/4 aspect-square"
+            />
+          </div>
+        </div>
       </>
     );
   }
@@ -133,7 +144,7 @@ const Card = () => {
               />
               <div
                 ref={letter}
-                className="letter absolute p-3 top-0 h-full max-sm:h-[160px] w-full bg-blue-500 flex justify-center items-center opacity-1 z-[2]"
+                className="letter absolute p-3 top-0 h-full max-sm:h-[160px] w-full rounded-lg bg-blue-500 flex justify-center items-center opacity-1 z-[2]"
               >
                 <p className="letterMessage line-clamp-6 text-center max-sm:text-sm max-sm:leading-5 ">
                   {data.message}
