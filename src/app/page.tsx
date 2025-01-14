@@ -5,7 +5,7 @@ import Modal from "@/components/ui/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -34,6 +34,7 @@ export default function Home() {
     formState: { errors, isSubmitting },
     handleSubmit,
     getValues,
+    reset
   } = useForm({
     defaultValues: {
       senderName: "",
@@ -49,6 +50,7 @@ export default function Home() {
       .post("/api/birthday", data)
       .then((res) => {
         setLink(`${process.env.NEXT_PUBLIC_HOST}/${res.data.data.birthdayId}`);
+        reset()
       })
       .catch((err) => {
         console.log(err);

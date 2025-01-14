@@ -87,12 +87,12 @@ const Card = () => {
         <ReactConfetti
           width={window.innerWidth}
           height={window.innerHeight}
-          numberOfPieces={200}
-          tweenDuration={10000}
-          recycle={false}
+          numberOfPieces={600}
+          tweenDuration={2500}
+          recycle={true}
         />
       )}
-      <div className="h-screen w-full overflow-hidden bg-slate-800 flex flex-col justify-center items-center">
+      <div className="h-screen w-full overflow-hidden bg-orange-300 flex flex-col justify-center items-center">
         <div
           className="letterBox h-screen relative w-full flex justify-center items-center opacity-1 px-10"
           ref={container}
@@ -100,16 +100,16 @@ const Card = () => {
           <div
             onClick={dispplay}
             ref={front}
-            className="front absolute h-[300px] w-[500px] max-sm:w-[280px] max-sm:h-[180px] bg-yellow-300 z-[6] "
+            className="front absolute h-[300px] w-[500px] max-sm:w-[280px] max-sm:h-[180px] bg-purple-900 rounded-md z-[6] "
           >
             <div className="front-content p-3 flex justify-center items-center w-full h-full">
-              <p className="from absolute top-3 left-3 text-xl max-sm:text-sm">
+              <p className="from absolute top-3 left-3 text-xl max-sm:text-sm text-slate-50">
                 From: {data.senderName}
               </p>
-              <p className="desc font-bold text-gray-400 opacity-10 animate-pulse">
+              <p className="desc font-bold text-gray-400 opacity-10 animate-pulse cursor-pointer">
                 TAP TO READ MESSAGE
               </p>
-              <p className="to absolute bottom-3 right-3 text-xl max-sm:text-sm">
+              <p className="to absolute bottom-3 right-3 text-xl max-sm:text-sm text-slate-50">
                 To: {data.name}
               </p>
             </div>
@@ -140,7 +140,7 @@ const Card = () => {
                 width={200}
                 height={200}
                 alt="envbottom"
-                className="h-full w-full object-cover relative z-[4]"
+                className="h-full w-full object-cover relative z-[4] shadow-lg"
               />
               <div
                 ref={letter}
