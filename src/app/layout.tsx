@@ -43,7 +43,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head> */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflowX-hidden`}
+        
       >
         {children}
       </body>

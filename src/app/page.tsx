@@ -5,19 +5,20 @@ import Modal from "@/components/ui/Modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Image from "next/image";
-import {  useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  senderName: z.string().min(3,"Sender name is required"),
+  senderName: z.string().min(3, "Sender name is required"),
   fullName: z.string().min(3, "Name is Required."),
   age: z.preprocess(
     (value) => (typeof value === "string" ? parseInt(value, 10) : value),
     z
       .number()
       .min(1, "Age must be at least 1")
-      .max(120, "Age cannot exceed 120").nullable()
+      .max(120, "Age cannot exceed 120")
+      .nullable()
   ),
   message: z
     .string()
@@ -27,12 +28,12 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export default function Home() {
-  const [displayModal, setdisplayModal] = useState(false);
+  const [displayModal, setdisplayModal] = useState<boolean>(false);
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    getValues
+    getValues,
   } = useForm({
     defaultValues: {
       senderName: "",
@@ -42,16 +43,12 @@ export default function Home() {
     },
     resolver: zodResolver(formSchema),
   });
-const [link,setLink]= useState("")
+  const [link, setLink] = useState("");
   const submitForm = (data: FormData) => {
-    
-
-    
     axios
       .post("/api/birthday", data)
       .then((res) => {
-        setLink(`${process.env.NEXT_PUBLIC_HOST }/${ res.data.data.birthdayId}`)
-        
+        setLink(`${process.env.NEXT_PUBLIC_HOST}/${res.data.data.birthdayId}`);
       })
       .catch((err) => {
         console.log(err);
@@ -60,12 +57,17 @@ const [link,setLink]= useState("")
     // setTimeout(()=>{setdisplayModal(false)},5000)
   };
 
-  
+ 
   return (
     <>
       {displayModal && (
-        <Modal setdisplayModal={setdisplayModal} message={getValues("message")} link={link} />
+        <Modal
+          setdisplayModal={setdisplayModal}
+          message={getValues("message")}
+          link={link}
+        />
       )}
+   
       <div className="select-none flex items-center bg-orange-300 h-auto min-h-screen w-full max-lg:items-center max-lg:flex max-lg:flex-col max-lg:gap-4 max-lg:justify-center max-sm:py-10">
         <div className="image">
           <Image
@@ -116,12 +118,12 @@ const [link,setLink]= useState("")
             // onSubmit={submitForm}
           >
             <p className="text-slate-900 text-md leading-6 max-sm:leading-4">
-              Enter the birthday person&apos;s name, age, and a custom message to
-              make their birthday special.
+              Enter the birthday person&apos;s name, age, and a custom message
+              to make their birthday special.
             </p>
             <Input
               placeholder="Enter Your Name"
-              // name="fullname"
+              // name="senderName"
               id="senderName"
               label="Your Name"
               icon={icons.name}
@@ -152,7 +154,6 @@ const [link,setLink]= useState("")
               label="Message"
               {...register("message")}
               icon={icons.message}
-             
               errorMessage={errors.message?.message}
             />
             <Button

@@ -32,9 +32,9 @@ const Modal = ({
         .to(letter.current, { y: "600%", duration: 1 }) // Move the letter
         .set(bottom.current, { overflow: "hidden", delay: 0.5 }) // Move the letter
         .set(cover.current, { zIndex: 5 }) // Change z-index
-        .to(cover.current, { rotateX: 180, duration: 1 }) // Rotate the cover
-        // .to(container.current, { top: "-100%", duration: 0.8 }) // Move the container out of view
-        // .set(container.current, { display: "none" }); // Hide the container
+        .to(cover.current, { rotateX: 180, duration: 1 }); // Rotate the cover
+      // .to(container.current, { top: "-100%", duration: 0.8 }) // Move the container out of view
+      // .set(container.current, { display: "none" }); // Hide the container
     },
     { scope: container }
   );
@@ -54,7 +54,8 @@ const Modal = ({
       <div className="w-full h-screen fixed top-0 left-0 z-20 backdrop-blur-[5px] bg-transparent flex justify-center items-center">
         <div
           className="letterBox h-screen relative w-full flex justify-center items-center opacity-0 px-10 "
-          ref={container}>
+          ref={container}
+        >
           <div className="letter-content h-[300px] max-sm:h-[180px] relative">
             <div
               className="relative letterCover origin-bottom  max-sm:w-[280px]"
@@ -78,7 +79,7 @@ const Modal = ({
                 width={200}
                 height={200}
                 alt="envcover"
-                className="h-full w-full object-contain relative z-[3]"
+                className="h-full w-full object-cover relative z-[3]"
               />
               <div
                 ref={letter}

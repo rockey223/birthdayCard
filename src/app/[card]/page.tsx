@@ -1,25 +1,37 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
-import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import ReactConfetti from "react-confetti";
 import axios from "axios";
+import gsap from "gsap";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import ReactConfetti from "react-confetti";
 
 gsap.registerPlugin(useGSAP);
 interface CardData {
+  senderName: string;
   fullName: string;
   message: string;
 }
-const Card = () => {
-  const params = useParams<{ card: string }>();
-  const [data, setData] = useState({ name: "", message: "" });
 
+const Card = () => {
+  const cover = useRef<HTMLDivElement | null>(null);
+  const container = useRef<HTMLDivElement | null>(null);
+  const letter = useRef<HTMLDivElement | null>(null);
+  const bottom = useRef<HTMLDivElement | null>(null);
+  const front = useRef<HTMLDivElement | null>(null);
+  const back = useRef<HTMLDivElement | null>(null);
+  const params = useParams<{ card: string }>();
+  const [data, setData] = useState({ senderName: "", name: "", message: "" });
+  const [explode, setExplode] = useState(false);
   function getData(id: string) {
     axios
       .get<CardData>(`/api/birthday/${id}`)
       .then((res) => {
+        console.log(res);
+
         setData({
+          senderName: res.data.senderName,
           name: res.data.fullName,
           message: res.data.message,
         });
@@ -31,19 +43,24 @@ const Card = () => {
   useEffect(() => {
     getData(params.card);
   }, [params]);
-  const title = "HAPPY BIRTHDAY";
-  const button = useRef<HTMLButtonElement | null>(null);
-  const flipCard = useRef<HTMLDivElement | null>(null);
-  const content = useRef<HTMLDivElement | null>(null);
-  const [explode, setExplode] = useState(false);
-  const rotateCard = () => {
+
+  const dispplay = () => {
     setExplode(true);
-    // setTimeout(()=>{
-    //   setExplode(false)
-    // },3000)
-    gsap.to(flipCard.current, { rotateX: 180, duration: 2 });
-    gsap.to(content.current, { opacity: 0.2, duration: 1.5 });
-    gsap.set(button.current, { display: "none" });
+    const tl = gsap.timeline();
+    tl.to(cover.current, { zIndex: 5 }); // Rotate back synchronously
+    tl.to(front.current, { rotateY: 180 }) // Rotate front
+      .to(back.current, { rotateY: 0 }, "<") // Rotate back synchronously
+      .set(cover.current, { opacity: 1 }, "<") // Rotate back synchronously
+      .to(cover.current, {
+        
+        "--rotate-value": "0deg",
+        duration: 1,
+        delay: 0.5,
+      })
+      .to(cover.current, { zIndex: 2 }) // Rotate back synchronously
+      .to(back.current, { top: "300px", delay: 0.3 }, "<")
+      .set(letter.current, { zIndex: 3 }, "<")
+      .to(letter.current, { top: "-300px", duration: 1 }, "<");
   };
   if (data.name == "") {
     return (
@@ -52,6 +69,7 @@ const Card = () => {
       </>
     );
   }
+
   return (
     <>
       {explode && (
@@ -59,50 +77,70 @@ const Card = () => {
           width={window.innerWidth}
           height={window.innerHeight}
           numberOfPieces={200}
-          tweenDuration={5000}
+          tweenDuration={10000}
           recycle={false}
         />
       )}
-      <div className="cardContainer h-screen w-full bg-orange-300 flex justify-center items-center">
-        <div className="absolute top-1/2 left-1/2 max-sm:top-[45%] max-lg:w-4/5 w-2/6 -translate-x-1/2 -translate-y-1/2">
+      <div className="h-screen w-full overflow-hidden bg-slate-800 flex flex-col justify-center items-center">
+        <div
+          className="letterBox h-screen relative w-full flex justify-center items-center opacity-1 px-10"
+          ref={container}
+        >
           <div
-            ref={flipCard}
-            className="absolute z-10 card-front h-[420px] max-sm:h-[300px] w-full overflow-hidden bg-slate-50 p-4 flex flex-col origin-top shadow-inner"
+            onClick={dispplay}
+            ref={front}
+            className="front absolute h-[300px] w-[500px] max-sm:w-[280px] max-sm:h-[180px] bg-yellow-300 z-[6] "
           >
-            <div
-              className="content flex flex-col justify-center items-center h-full gap-5"
-              ref={content}
-            >
-              <h1 className="shadow-2xl px-7 text-center text-8xl font-medium -skew-y-12 bg-purple-600 max-lg:w-2/3 max-md:w-3/4 max-md:text-5xl max-sm:text-2xl w-5/6 self-center">
-                {title}
-              </h1>
-              <h3 className="name self-center text-6xl max-sm:text-xl font-bold bg-green-700 px-6 py-7 -skew-y-12 shadow-2xl">
-                {data.name}
-              </h3>
-              <button
-                onClick={rotateCard}
-                ref={button}
-                className="absolute right-3 bottom-3 text-md self-end text-purple-800 animate-pulse"
-              >
-                Click here
-              </button>
-            </div>
-          </div>
-          <div className="absolute card-back h-[420px] max-sm:h-[300px] w-full bg-slate-50 p-4  flex flex-col origin-center shadow-inner">
-            <div className="mt-10 overflow-y-auto">
-              <p className="text-2xl max-sm:text-lg leading-8 max-sm:leading-5 text-center">
-                {data.message}
+            <div className="front-content p-3 flex justify-center items-center w-full h-full">
+              <p className="from absolute top-3 left-3 text-xl max-sm:text-sm">
+                From: {data.senderName}
+              </p>
+              <p className="desc font-bold text-gray-400 opacity-10 animate-pulse">
+                TAP TO READ MESSAGE
+              </p>
+              <p className="to absolute bottom-3 right-3 text-xl max-sm:text-sm">
+                To: {data.name}
               </p>
             </div>
-            {/* <h1 className="shadow-2xl px-7 text-center text-8xl font-medium -skew-y-12 bg-purple-600 max-lg:w-2/3 max-md:w-3/4 max-md:text-5xl w-5/6 self-center">
-              {title}
-            </h1>
-            <h3 className="name self-center text-6xl font-bold bg-green-700 px-6 py-7 -skew-y-12 shadow-2xl">
-              {name}
-            </h3>
-            <button className="absolute bottom-3 text-md self-end text-purple-800 animate-pulse">
-              Click here
-            </button> */}
+          </div>
+          <div
+            ref={back}
+            className="back letter-content h-[300px]  max-sm:h-[180px] absolute top-[12%] max-sm:top-[25%] rotateY-180"
+          >
+            <div
+              className="relative letterCover origin-bottom  max-sm:w-[280px] rotateX-180 opacity-0 z-[1] "
+              ref={cover}
+            >
+              <Image
+                src="/envcover.svg"
+                width={500}
+                height={300}
+                alt="envcover"
+                className="h-full w-full object-contain"
+              />
+            </div>
+
+            <div
+              ref={bottom}
+              className="relative letterBox h-full max-sm:h-[170px] max-sm:w-[280px] w-full"
+            >
+              <Image
+                src="/envbottom.svg"
+                width={200}
+                height={200}
+                alt="envbottom"
+                className="h-full w-full object-cover relative z-[4]"
+              />
+              <div
+                ref={letter}
+                className="letter absolute p-3 top-0 h-full max-sm:h-[160px] w-full bg-blue-500 flex justify-center items-center opacity-1 z-[2]"
+              >
+                <p className="letterMessage line-clamp-6 text-center max-sm:text-sm max-sm:leading-5 ">
+                  {data.message}
+                </p>
+              </div>
+              <div className="bg-color h-full w-full relative bg-slate-600 -top-[100%] z-[1]"></div>
+            </div>
           </div>
         </div>
       </div>
