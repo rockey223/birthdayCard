@@ -133,7 +133,7 @@ export default function Home() {
               errorMessage={errors.senderName?.message}
             />
             <Input
-              placeholder="Enter Full Name"
+              placeholder="Enter Friends Name"
               // name="fullname"
               id="fullName"
               label="Full Name"
